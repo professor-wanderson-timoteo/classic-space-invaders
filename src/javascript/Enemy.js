@@ -1,5 +1,5 @@
 export default class Enemy {
-  constructor(x, y, imageNumber){
+  constructor(x, y, imageNumber) {
     this.x = x;
     this.y = y;
     this.width = 44;
@@ -11,12 +11,10 @@ export default class Enemy {
   draw(ctx) {
     ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
-
   move(xVelocity, yVelocity) {
     this.x += xVelocity;
     this.y += yVelocity;
   }
-
   collideWith(sprite) {
     if(
       this.x + this.width > sprite.x &&
@@ -25,7 +23,8 @@ export default class Enemy {
       this.y < sprite.y + sprite.height
     ) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 }
