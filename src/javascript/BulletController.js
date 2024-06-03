@@ -1,34 +1,33 @@
-import Bulltet from "./Bullet.js";
+import Bullet from "./Bullet.js";
 
 export default class BulletController {
   bullets = [];
   timeTillNextBulletAllowed = 0;
 
-  constructor(canvas, maxBulletsAtATime, bulletColor, soundEnabled) {
+  constructor(canvas, maxBulletAtATime, bulletColor, soundEnable) {
     this.canvas = canvas;
-    this.maxBulletsAtATime = maxBulletsAtATime;
+    this.maxBulletAtATime = maxBulletAtATime;
     this.bulletColor = bulletColor;
-    this.soundEnabled = soundEnabled;
+    this.soundEnable = soundEnable;
 
-    this.shootSound = new Audio("src/assets/sounds/shoot.wav");
-    this.shootSound.volume = 0.1;
+    this.bulletSound = new Audio("src/assets/sounds/shoot.wav");
+    this.bulletSound.volume = 0.1;
   }
-
   draw(ctx) {
     this.bullets = this.bullets.filter(
       (bullet) => bullet.y + bullet.width > 0 && bullet.y <= this.canvas.height);
-  
-    this.bullets.forEach((bullet) => bullet.draw(ctx));
 
-    if(this.timeTillNextBulletAllowed > 0 ) {
-      this.timeTillNextBulletAllowed--;
-    }
+      this.bullets.forEach((bullet) => bullet.draw(ctx));
+
+      if(this.timeTillNextBulletAllowed > 0) {
+        this.timeTillNextBulletAllowed--;
+      }
   }
-  collideWith(sprite) {
-    const bulletThatHitSpriteIndex = this.bullets.findIndex((bullet) => 
-    bullet.collideWith(sprite));
 
-    if(bulletThatHitSpriteIndex >= 0) {
+  collideWith(sprite) {
+    const bulletThatHitSpriteIndex = this.bullets.findIndex((bullet) => bullet.collideWith(sprite));
+
+    if(bulletThatHitSpriteIndex >= 0 ) {
       this.bullets.splice(bulletThatHitSpriteIndex, 1);
       return true;
     }
@@ -36,12 +35,10 @@ export default class BulletController {
   }
 
   shoot(x, y, velocity, timeTillNextBulletAllowed = 0) {
-    if(this.timeTillNextBulletAllowed <= 0 &&
-      this.bullets.length < this.maxBulletsAtATime
-    ) {
-      const bullet = new Bulltet(this.canvas, x, y, velocity, this.bulletColor);
+    if(this.timeTillNextBulletAllowed <= 0 && this.bullets.length < this.maxBulletAtATime) {
+      const bullet = new Bullet(this.canvas, x, y, velocity, this.bulletColor);
       this.bullets.push(bullet);
-      if(this.soundEnabled){
+      if(this.soundEnable) {
         this.shootSound.currentTime = 0;
         this.shootSound.play();
       }
