@@ -2,12 +2,20 @@ import EnemyController from "./EnemyController.js";
 import BulletController from "./BulletController.js";
 import Player from "./Player.js";
 
-const canvas = document.getElementById('game');
+const canvas = document.getElementById("game");
 const ctx = canvas.getContext('2d');
 const title = document.getElementById("title");
 const logoSenac = document.getElementById("logoSenac");
 const instructions = document.getElementById("instructions");
 const playButton = document.getElementById("playButton");
+const gameOverScreen = document.getElementById("gameOverScreen");
+const retryButton = document.getElementById("retryButton");
+const winScreen = document.getElementById("winScreen");
+const restartButton = document.getElementById("restartButton");
+const footer = document.getElementById("footer");
+
+gameOverScreen.style.display = "none";
+winScreen.style.display = "none";
 
 canvas.width = 600;
 canvas.height = 600;
@@ -15,26 +23,33 @@ canvas.height = 600;
 const background = new Image();
 background.src = "./src/assets/images/space.png";
 
-const playerBulletController = new BulletController(canvas, 10, "white", true);
+const playerBulletController = new BulletController(canvas, 10, "yellow", true);
 const enemyBulletController = new BulletController(canvas, 4, "red", true);
 
-const enemyController = new EnemyController(
-  canvas,
-  enemyBulletController,
-  playerBulletController
-);
-
-const player = new Player(canvas, 3, playerBulletController);
+let enemyController;
+let player;
 
 let isGameOver = false;
 let didWin = false;
+let gameInterval;
+
+function initGame() {
+  enemyController = new EnemyController(
+    canvas,
+    enemyBulletController,
+    playerBulletController
+  );
+  player = new Player(canvas, 3, playerBulletController);
+  isGameOver = false;
+  didWin = false;
+}
 
 function game() {
   checkGameOver();
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   displayGameOver();
 
-  if(!isGameOver) {
+  if (!isGameOver) {
     enemyController.draw(ctx);
     player.draw(ctx);
     playerBulletController.draw(ctx);
@@ -43,42 +58,64 @@ function game() {
 }
 
 function checkGameOver() {
-  if(isGameOver) {
+  if (isGameOver) {
+    clearInterval(gameInterval);
     return;
   }
 
-  if(enemyBulletController.collideWith(player)){
+  if (enemyBulletController.collideWith(player)) {
     isGameOver = true;
   }
 
-  if(enemyController.collideWith(player)) {
+  if (enemyController.collideWith(player)) {
     isGameOver = true;
   }
 
-  if(enemyController.enemyRows.length === 0) {
+  if (enemyController.enemyRows.length === 0) {
     didWin = true;
     isGameOver = true;
   }
 }
 
 function displayGameOver() {
-  if(isGameOver) {
-    let text = didWin ? "Você Ganhou!" : "Game Over";
-    let textOffset = didWin ? 5 : 3.6;
-    ctx.fillStyle = "white";
-    ctx.font = "35px 'Press Start 2P'";
-    ctx.fillText(text, canvas.width / textOffset, canvas.height / 2);
+  if (isGameOver) {
+    canvas.style.display = "none";
+    title.style.display = "none";
+    if (didWin) {
+      winScreen.style.display = "flex";
+    } else {
+      gameOverScreen.style.display = "flex";
+    }
   }
 }
 
-// Função para iniciar o jogo
 function startGame() {
   instructions.style.display = "none";
   logoSenac.style.display = "none";
+  gameOverScreen.style.display = "none";
+  winScreen.style.display = "none";
   title.style.display = "flex";
+  footer.style.display = "none";
 
   canvas.style.display = "block";
-  setInterval(game, 1000 / 60);
+  initGame();
+  gameInterval = setInterval(game, 1000 / 60);
+}
+
+function restartGame() {
+  gameOverScreen.style.display = "none";
+  winScreen.style.display = "none";
+  instructions.style.display = "flex";
+  logoSenac.style.display = "flex";
+  title.style.display = "none";
+  canvas.style.display = "none";
+  footer.style.display = "flex";
+  
+  initGame();
 }
 
 playButton.addEventListener("click", startGame);
+retryButton.addEventListener("click", restartGame);
+restartButton.addEventListener("click", restartGame);
+
+initGame();
