@@ -77,6 +77,13 @@
         font-size: 0.5em;
         margin: 20px 0;
       }
+      #link {
+        color: white;
+        cursor: pointer;
+      }
+      #link:hover {
+        color: rgb(32, 206, 67);
+      }
     </style>
   </head>
   <body>
@@ -89,7 +96,7 @@
       </div>
     </div>
     <div id="instructions">
-      <h1>Bem-vindo ao Jogo Space Invaders!</h1>
+      <h1>Bem-vindo ao jogo <span style="color: rgb(32, 206, 67);">Space Invaders!</span></h1>
       <p>Use as setas esquerda e direita para mover.</p>
       <p>Pressione a barra de espaço para atirar.</p>
       <button id="playButton" class="button">Jogar</button>
@@ -119,17 +126,14 @@
         font-size: 10px;
       "
     >
-      Copyright &copy; 2024 - 
+      Copyright &copy; 2024 &af;
       <a
-        style="
-          color: white;
-          cursor: pointer;
-        " 
+        id="link" 
         href="https://www.wandersontimoteo.com.br/" 
         target="_blank" 
         rel="noopener noreferrer"
       >
-        Wanderson Timóteo
+      &af;Wanderson Timóteo
       </a>
     </footer>
   </body>
