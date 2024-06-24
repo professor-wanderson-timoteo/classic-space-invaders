@@ -3,12 +3,12 @@ import MovingDirection from './MovingDirection.js';
 
 export default class EnemyController {
   enemyMap = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [4, 4, 1, 1, 1, 1, 1, 1, 4, 4],
     [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
-    [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
+    [2, 2, 2, 3, 3, 3, 3, 2, 5, 5],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [5, 5, 2, 4, 4, 4, 2, 2, 2, 2],
   ];
   enemyRows = [];
 
@@ -22,12 +22,13 @@ export default class EnemyController {
   fireBulletTimerDefault = 100;
   fireBulletTimer = this.fireBulletTimerDefault;
 
-  constructor(canvas, enemyBulletController, playerBulletController) {
+  constructor(canvas, enemyBulletController, playerBulletController, updateScoreCallback) {
     this.canvas = canvas;
     this.enemyBulletController = enemyBulletController;
     this.playerBulletController = playerBulletController;
     this.enemyDeathSound = new Audio("src/assets/sounds/enemy-death.wav");
     this.enemyDeathSound.volume = 0.1;
+    this.updateScoreCallback = updateScoreCallback;
 
     this.createEnemies();
   }
@@ -47,6 +48,8 @@ export default class EnemyController {
         if(this.playerBulletController.collideWith(enemy)) {
           this.enemyDeathSound.currentTime = 0;
           this.enemyDeathSound.play();
+          console.log(`Inimigo do tipo ${enemy.enemyType} destruído`);
+          this.updateScoreCallback(enemy.enemyType);  // Atualize a pontuação
           enemyRow.splice(enemyIndex, 1);
         }
       });
@@ -128,8 +131,6 @@ export default class EnemyController {
     });
   }
 
-  happy = () => {};
-
   createEnemies() {
     this.enemyMap.forEach((row, rowIndex) => {
       this.enemyRows[rowIndex] = [];
@@ -140,6 +141,7 @@ export default class EnemyController {
       });
     }); 
   }
+  
   collideWith(sprite) {
     return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
   }

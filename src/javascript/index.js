@@ -13,9 +13,13 @@ const retryButton = document.getElementById("retryButton");
 const winScreen = document.getElementById("winScreen");
 const restartButton = document.getElementById("restartButton");
 const footer = document.getElementById("footer");
+const scoreDisplay = document.getElementById("score");
+const gameOverScreenScore = document.getElementById("gameOverScreenScore");
+const winScreenScore = document.getElementById("winScreenScore");
 
 gameOverScreen.style.display = "none";
 winScreen.style.display = "none";
+scoreDisplay.style.display = "none";
 
 canvas.width = 600;
 canvas.height = 600;
@@ -28,6 +32,20 @@ const enemyBulletController = new BulletController(canvas, 4, "red", true);
 
 let enemyController;
 let player;
+let playerScore = 0;
+
+function updateScore(enemyType) {
+  const scoreMap = {
+    1: 50,
+    2: 100,
+    3: 150,
+    4: 200,
+    5: 250,
+  };
+  playerScore += scoreMap[enemyType] || 0;
+  scoreDisplay.innerText = `Pontuação: ${playerScore}`;
+  console.log(`Pontuação atualizada: ${playerScore}`);
+}
 
 let isGameOver = false;
 let didWin = false;
@@ -37,9 +55,12 @@ function initGame() {
   enemyController = new EnemyController(
     canvas,
     enemyBulletController,
-    playerBulletController
+    playerBulletController,
+    updateScore
   );
   player = new Player(canvas, 3, playerBulletController);
+  playerScore = 0;
+  updateScore(0);
   isGameOver = false;
   didWin = false;
 }
@@ -81,10 +102,14 @@ function displayGameOver() {
   if (isGameOver) {
     canvas.style.display = "none";
     title.style.display = "none";
+    scoreDisplay.style.display = "none";
+
     if (didWin) {
       winScreen.style.display = "flex";
+      winScreenScore.innerText = `Pontuação: ${playerScore}`;
     } else {
       gameOverScreen.style.display = "flex";
+      gameOverScreenScore.innerText = `Pontuação: ${playerScore}`;
     }
   }
 }
@@ -95,6 +120,7 @@ function startGame() {
   gameOverScreen.style.display = "none";
   winScreen.style.display = "none";
   title.style.display = "flex";
+  scoreDisplay.style.display = "flex";
   footer.style.display = "none";
 
   canvas.style.display = "block";
@@ -110,6 +136,7 @@ function restartGame() {
   title.style.display = "none";
   canvas.style.display = "none";
   footer.style.display = "flex";
+  scoreDisplay.style.display = "none";
   
   initGame();
 }
