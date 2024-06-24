@@ -21,14 +21,14 @@ gameOverScreen.style.display = "none";
 winScreen.style.display = "none";
 scoreDisplay.style.display = "none";
 
-canvas.width = 600;
+canvas.width = 1024;
 canvas.height = 600;
 
 const background = new Image();
 background.src = "./src/assets/images/space.png";
 
 const playerBulletController = new BulletController(canvas, 10, "yellow", true);
-const enemyBulletController = new BulletController(canvas, 4, "red", true);
+const enemyBulletController = new BulletController(canvas, 10, "red", true);
 
 let enemyController;
 let player;
