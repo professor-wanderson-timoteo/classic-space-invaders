@@ -27,8 +27,8 @@ canvas.height = 600;
 const background = new Image();
 background.src = "./src/assets/images/space.png";
 
-const playerBulletController = new BulletController(canvas, 10, "yellow", true);
-const enemyBulletController = new BulletController(canvas, 10, "red", true);
+const playerBulletController = new BulletController(canvas, 10, "black", true);
+const enemyBulletController = new BulletController(canvas, 4, "black", true);
 
 let enemyController;
 let player;
@@ -42,9 +42,9 @@ function updateScore(enemyType) {
     4: 200,
     5: 250,
   };
+
   playerScore += scoreMap[enemyType] || 0;
   scoreDisplay.innerText = `Pontuação: ${playerScore}`;
-  console.log(`Pontuação atualizada: ${playerScore}`);
 }
 
 let isGameOver = false;

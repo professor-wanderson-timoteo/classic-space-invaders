@@ -16,10 +16,10 @@ export default class EnemyController {
   xVelocity = 0;
   yVelocity = 0;
   defaultXVelocity = 3;
-  defaultYVelocity = 2;
+  defaultYVelocity = 3;
   moveDownTimerDefault = 30;
   moveDownTimer = this.moveDownTimerDefault;
-  fireBulletTimerDefault = 100;
+  fireBulletTimerDefault = 50;
   fireBulletTimer = this.fireBulletTimerDefault;
 
   constructor(canvas, enemyBulletController, playerBulletController, updateScoreCallback) {
@@ -48,8 +48,7 @@ export default class EnemyController {
         if(this.playerBulletController.collideWith(enemy)) {
           this.enemyDeathSound.currentTime = 0;
           this.enemyDeathSound.play();
-          console.log(`Inimigo do tipo ${enemy.enemyType} destruído`);
-          this.updateScoreCallback(enemy.enemyType);  // Atualize a pontuação
+          this.updateScoreCallback(enemy.enemyType);
           enemyRow.splice(enemyIndex, 1);
         }
       });
@@ -64,7 +63,7 @@ export default class EnemyController {
       const allEnemies = this.enemyRows.flat();
       const enemyIndex = Math.floor(Math.random() * allEnemies.length);
       const enemy =  allEnemies[enemyIndex];
-      this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -3);
+      this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -5);
     }
   }
 

@@ -12,14 +12,14 @@
     <link rel="shortcut icon" href="src/assets/images/player.png" type="image/x-icon">
     <title>Classic Space Invaders | Wanderson Timóteo</title>
     <style>
-      canvas {
-        box-shadow: black 20px 10px 50px;
-      }
+      /* canvas {
+        box-shadow: rgb(105, 82, 82) 20px 10px 50px;
+      } */
       h1 {
         margin: 20px 0 10px 0;
         font-size: 1.7em;
         font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
-        color: white;
+        color: black;
       }
       body {
         display: flex;
@@ -28,11 +28,12 @@
         padding: 0px;
         margin: 0px;
         height: 100vh;
-        background: linear-gradient(
+        background-color: #FFF;
+        /* background: linear-gradient(
           0deg,
           rgba(12, 12, 12, 0.8) 0%,
           rgb(0, 0, 0) 100%
-        );
+        ); */
       }
       #game, #title, #gameOverScreen, #winScreen {
         display: none;
@@ -49,7 +50,7 @@
         margin: 10px 0;
         font-size: 1.2em;
         font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
-        color: white;
+        color: black;
       }
       .button {
         margin: 10px 0;
@@ -73,12 +74,12 @@
       }
       #score {
         font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
-        color: white;
+        color: black;
         font-size: 0.5em;
         margin: 20px 0;
       }
       #link {
-        color: white;
+        color: black;
         cursor: pointer;
       }
       #link:hover {
@@ -96,7 +97,7 @@
       </div>
     </div>
     <div id="instructions">
-      <h1>Bem-vindo ao jogo <span style="color: rgb(32, 206, 67);">Space Invaders!</span></h1>
+      <h1>Bem-vindo ao Jogo Space Invaders!</h1>
       <p>Use as setas esquerda e direita para mover.</p>
       <p>Pressione a barra de espaço para atirar.</p>
       <button id="playButton" class="button">Jogar</button>
@@ -120,15 +121,15 @@
     <footer 
       id="footer" 
       style="
-        color: white; 
+        color: black; 
         margin-bottom: 20px;
         font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
         font-size: 10px;
       "
     >
-      Copyright &copy; 2024 &af;
+      Copyright &copy; 2024 - &af;
       <a
-        id="link" 
+        id="link"  
         href="https://www.wandersontimoteo.com.br/" 
         target="_blank" 
         rel="noopener noreferrer"
