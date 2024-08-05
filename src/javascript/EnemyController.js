@@ -3,31 +3,32 @@ import MovingDirection from './MovingDirection.js';
 
 export default class EnemyController {
   enemyMap = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+    [4, 4, 1, 1, 1, 1, 1, 1, 4, 4],
     [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
-    [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
+    [2, 2, 2, 3, 3, 3, 3, 2, 5, 5],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+    [5, 5, 2, 4, 4, 4, 2, 2, 2, 2],
   ];
   enemyRows = [];
 
   currentDirection = MovingDirection.right;
   xVelocity = 0;
   yVelocity = 0;
-  defaultXVelocity = 1;
-  defaultYVelocity = 1;
+  defaultXVelocity = 3;
+  defaultYVelocity = 3;
   moveDownTimerDefault = 30;
   moveDownTimer = this.moveDownTimerDefault;
-  fireBulletTimerDefault = 100;
+  fireBulletTimerDefault = 50;
   fireBulletTimer = this.fireBulletTimerDefault;
 
-  constructor(canvas, enemyBulletController, playerBulletController) {
+  constructor(canvas, enemyBulletController, playerBulletController, updateScoreCallback) {
     this.canvas = canvas;
     this.enemyBulletController = enemyBulletController;
     this.playerBulletController = playerBulletController;
     this.enemyDeathSound = new Audio("src/assets/sounds/enemy-death.wav");
     this.enemyDeathSound.volume = 0.1;
+    this.updateScoreCallback = updateScoreCallback;
 
     this.createEnemies();
   }
@@ -47,6 +48,7 @@ export default class EnemyController {
         if(this.playerBulletController.collideWith(enemy)) {
           this.enemyDeathSound.currentTime = 0;
           this.enemyDeathSound.play();
+          this.updateScoreCallback(enemy.enemyType);
           enemyRow.splice(enemyIndex, 1);
         }
       });
@@ -61,7 +63,7 @@ export default class EnemyController {
       const allEnemies = this.enemyRows.flat();
       const enemyIndex = Math.floor(Math.random() * allEnemies.length);
       const enemy =  allEnemies[enemyIndex];
-      this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -3);
+      this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -5);
     }
   }
 
@@ -128,8 +130,6 @@ export default class EnemyController {
     });
   }
 
-  happy = () => {};
-
   createEnemies() {
     this.enemyMap.forEach((row, rowIndex) => {
       this.enemyRows[rowIndex] = [];
@@ -140,6 +140,7 @@ export default class EnemyController {
       });
     }); 
   }
+  
   collideWith(sprite) {
     return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
   }

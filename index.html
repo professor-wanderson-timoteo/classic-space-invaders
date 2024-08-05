@@ -9,16 +9,17 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link rel="shortcut icon" href="src/assets/images/player.png" type="image/x-icon">
     <title>Classic Space Invaders | Wanderson Timóteo</title>
     <style>
-      canvas {
-        box-shadow: black 20px 10px 50px;
-      }
+      /* canvas {
+        box-shadow: rgb(105, 82, 82) 20px 10px 50px;
+      } */
       h1 {
-        margin: 30px 0 10px 0;
-        font-size: 2.4em;
+        margin: 20px 0 10px 0;
+        font-size: 1.7em;
         font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
-        color: white;
+        color: black;
       }
       body {
         display: flex;
@@ -27,16 +28,17 @@
         padding: 0px;
         margin: 0px;
         height: 100vh;
-        background: linear-gradient(
+        background-color: #FFF;
+        /* background: linear-gradient(
           0deg,
           rgba(12, 12, 12, 0.8) 0%,
           rgb(0, 0, 0) 100%
-        );
+        ); */
       }
-      #game, #title {
+      #game, #title, #gameOverScreen, #winScreen {
         display: none;
       }
-      #instructions {
+      #instructions, #gameOverScreen, #winScreen {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -44,13 +46,13 @@
         height: 100vh;
         text-align: center;
       }
-      #instructions p{
+      #instructions p, #gameOverScreen p, #winScreen p {
         margin: 10px 0;
         font-size: 1.2em;
         font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
-        color: white;
+        color: black;
       }
-      #playButton {
+      .button {
         margin: 10px 0;
         padding: 10px;
         border-radius: 8px;
@@ -59,7 +61,7 @@
         color: rgb(32, 206, 67);
         cursor: pointer;
       }
-      #playButton:hover {
+      .button:hover {
         background: rgb(32, 206, 67);
         color: white;
         box-shadow: rgb(146, 231, 142) 5px 5px 10px;
@@ -69,6 +71,19 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+      }
+      #score {
+        font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
+        color: black;
+        font-size: 0.5em;
+        margin: 20px 0;
+      }
+      #link {
+        color: black;
+        cursor: pointer;
+      }
+      #link:hover {
+        color: rgb(32, 206, 67);
       }
     </style>
   </head>
@@ -85,10 +100,42 @@
       <h1>Bem-vindo ao Jogo Space Invaders!</h1>
       <p>Use as setas esquerda e direita para mover.</p>
       <p>Pressione a barra de espaço para atirar.</p>
-      <button id="playButton">Jogar</button>
+      <button id="playButton" class="button">Jogar</button>
     </div>
-    <h1 id="title">Space Invaders</h1>
+    <div id="gameOverScreen">
+      <h1>Game Over</h1>
+      <p id="gameOverScreenScore"></p>
+      <button id="retryButton" class="button">Tentar Novamente</button>
+    </div>
+    <div id="winScreen">
+      <h1>Parabéns, você venceu!</h1>
+      <p id="winScreenScore"></p>
+      <button id="restartButton" class="button">Reiniciar</button>
+    </div>
+    <div>
+      <h1 id="title">Space Invaders</h1>
+      <p id="score">Pontuação: 0</p>
+    </div>
     <canvas id="game"></canvas>
     <script type="module" src="src/javascript/index.js"></script>
+    <footer 
+      id="footer" 
+      style="
+        color: black; 
+        margin-bottom: 20px;
+        font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
+        font-size: 10px;
+      "
+    >
+      Copyright &copy; 2024 - &af;
+      <a
+        id="link"  
+        href="https://www.wandersontimoteo.com.br/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+      &af;Wanderson Timóteo
+      </a>
+    </footer>
   </body>
 </html>
