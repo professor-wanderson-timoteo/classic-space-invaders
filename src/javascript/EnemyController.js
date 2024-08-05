@@ -1,5 +1,5 @@
-import Enemy from './Enemy.js';
-import MovingDirection from './MovingDirection.js';
+import Enemy from "./Enemy.js";
+import MovingDirection from "./MovingDirection.js";
 
 export default class EnemyController {
   enemyMap = [
@@ -22,7 +22,12 @@ export default class EnemyController {
   fireBulletTimerDefault = 50;
   fireBulletTimer = this.fireBulletTimerDefault;
 
-  constructor(canvas, enemyBulletController, playerBulletController, updateScoreCallback) {
+  constructor(
+    canvas,
+    enemyBulletController,
+    playerBulletController,
+    updateScoreCallback
+  ) {
     this.canvas = canvas;
     this.enemyBulletController = enemyBulletController;
     this.playerBulletController = playerBulletController;
@@ -45,7 +50,7 @@ export default class EnemyController {
   collissionDetection() {
     this.enemyRows.forEach((enemyRow) => {
       enemyRow.forEach((enemy, enemyIndex) => {
-        if(this.playerBulletController.collideWith(enemy)) {
+        if (this.playerBulletController.collideWith(enemy)) {
           this.enemyDeathSound.currentTime = 0;
           this.enemyDeathSound.play();
           this.updateScoreCallback(enemy.enemyType);
@@ -56,25 +61,25 @@ export default class EnemyController {
     this.enemyRows = this.enemyRows.filter((enemyRow) => enemyRow.length > 0);
   }
 
-  fireBullet(){
+  fireBullet() {
     this.fireBulletTimer--;
-    if(this.fireBulletTimer <= 0) {
+    if (this.fireBulletTimer <= 0) {
       this.fireBulletTimer = this.fireBulletTimerDefault;
       const allEnemies = this.enemyRows.flat();
       const enemyIndex = Math.floor(Math.random() * allEnemies.length);
-      const enemy =  allEnemies[enemyIndex];
+      const enemy = allEnemies[enemyIndex];
       this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -5);
     }
   }
 
   resetMoveDownTimer() {
-    if(this.moveDownTimer <= 0 ) {
+    if (this.moveDownTimer <= 0) {
       this.moveDownTimer = this.moveDownTimerDefault;
     }
   }
 
   decrementMoveDownTimer() {
-    if(
+    if (
       this.currentDirection === MovingDirection.downLeft ||
       this.currentDirection === MovingDirection.downRight
     ) {
@@ -83,20 +88,20 @@ export default class EnemyController {
   }
 
   updateVelocityAndDirection() {
-    for(const enemyRow of this.enemyRows) {
-      if(this.currentDirection === MovingDirection.right) {
+    for (const enemyRow of this.enemyRows) {
+      if (this.currentDirection === MovingDirection.right) {
         this.xVelocity = this.defaultXVelocity;
         this.yVelocity = 0;
-        const rightMostEnemy =  enemyRow[enemyRow.length - 1];
-        if(rightMostEnemy.x + rightMostEnemy.width >= this.canvas.width) {
+        const rightMostEnemy = enemyRow[enemyRow.length - 1];
+        if (rightMostEnemy.x + rightMostEnemy.width >= this.canvas.width) {
           this.currentDirection = MovingDirection.downLeft;
           break;
         }
-      } else if(this.currentDirection === MovingDirection.downLeft) {
-        if(this.moveDown(MovingDirection.left)) {
+      } else if (this.currentDirection === MovingDirection.downLeft) {
+        if (this.moveDown(MovingDirection.left)) {
           break;
         }
-      } else if(this.currentDirection === MovingDirection.left) {
+      } else if (this.currentDirection === MovingDirection.left) {
         this.xVelocity = -this.defaultXVelocity;
         this.yVelocity = 0;
         const leftMostEnemy = enemyRow[0];
@@ -104,8 +109,8 @@ export default class EnemyController {
           this.currentDirection = MovingDirection.downRight;
           break;
         }
-      } else if( this.currentDirection === MovingDirection.downRight) {
-        if(this.moveDown(MovingDirection.right)) {
+      } else if (this.currentDirection === MovingDirection.downRight) {
+        if (this.moveDown(MovingDirection.right)) {
           break;
         }
       }
@@ -115,7 +120,7 @@ export default class EnemyController {
   moveDown(newDirection) {
     this.xVelocity = 0;
     this.yVelocity = this.defaultYVelocity;
-    if(this.moveDownTimer <= 0) {
+    if (this.moveDownTimer <= 0) {
       this.currentDirection = newDirection;
       return true;
     } else {
@@ -134,13 +139,15 @@ export default class EnemyController {
     this.enemyMap.forEach((row, rowIndex) => {
       this.enemyRows[rowIndex] = [];
       row.forEach((enemyNumber, enemyIndex) => {
-        if(enemyNumber > 0) {
-          this.enemyRows[rowIndex].push(new Enemy(enemyIndex * 50, rowIndex * 35, enemyNumber));
+        if (enemyNumber > 0) {
+          this.enemyRows[rowIndex].push(
+            new Enemy(enemyIndex * 50, rowIndex * 35, enemyNumber)
+          );
         }
       });
-    }); 
+    });
   }
-  
+
   collideWith(sprite) {
     return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
   }

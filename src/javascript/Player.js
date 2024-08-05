@@ -19,7 +19,7 @@ export default class Player {
   }
 
   draw(ctx) {
-    if(this.shootPressed) {
+    if (this.shootPressed) {
       this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
     }
     this.move();
@@ -28,7 +28,7 @@ export default class Player {
   }
 
   move() {
-    if(this.rightPressed) {
+    if (this.rightPressed) {
       this.x += this.velocity;
     } else if (this.leftPressed) {
       this.x += -this.velocity;
@@ -36,36 +36,36 @@ export default class Player {
   }
 
   collideWithWalls() {
-    if(this.x < 0) {
+    if (this.x < 0) {
       this.x = 0;
     }
-    if(this.x > this.canvas.width - this.width) {
+    if (this.x > this.canvas.width - this.width) {
       this.x = this.canvas.width - this.width;
     }
   }
 
   keydown = (event) => {
-    if(event.code == "ArrowRight") {
+    if (event.code == "ArrowRight") {
       this.rightPressed = true;
     }
-    if(event.code == "ArrowLeft") {
+    if (event.code == "ArrowLeft") {
       this.leftPressed = true;
     }
-    if(event.code == "Space") {
+    if (event.code == "Space") {
       this.shootPressed = true;
     }
   };
 
   keyup = (event) => {
-    if(event.code == "ArrowRight") {
+    if (event.code == "ArrowRight") {
       this.rightPressed = false;
     }
 
-    if(event.code == "ArrowLeft") {
+    if (event.code == "ArrowLeft") {
       this.leftPressed = false;
     }
-    
-    if(event.code == "Space") {
+
+    if (event.code == "Space") {
       this.shootPressed = false;
     }
   };

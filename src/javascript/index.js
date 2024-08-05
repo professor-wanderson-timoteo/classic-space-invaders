@@ -3,7 +3,7 @@ import BulletController from "./BulletController.js";
 import Player from "./Player.js";
 
 const canvas = document.getElementById("game");
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext("2d");
 const title = document.getElementById("title");
 const logoSenac = document.getElementById("logoSenac");
 const instructions = document.getElementById("instructions");
@@ -137,7 +137,7 @@ function restartGame() {
   canvas.style.display = "none";
   footer.style.display = "flex";
   scoreDisplay.style.display = "none";
-  
+
   initGame();
 }
 
